@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Summer Live 2025 完成版</title>
+  <link rel="stylesheet" href="https://public.codepenassets.com/css/normalize-5.0.0.min.css">
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css'>
+<link rel='stylesheet' href='https://unpkg.com/@mdi/font@6.x/css/materialdesignicons.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'><link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUMMER LIVE 2025</title>
+  
+
+</head>
+  
+<body>
+  <div id="app">
+    <v-app>
+      <v-container>
+        <!-- タブの定義 -->
+        <v-tabs
+          v-model="tab"
+          background-color=skyblue
+					dark
+          slider-color="white"
+					align="center"
+				  justify="center"
+        >
+          <v-tab>Artist</v-tab>
+          <v-tab>Ticket Reservation</v-tab>
+          <v-tab>My Page</v-tab>
+					<v-tab>PopUp</v-tab>
+          </v-tabs>
+
+        <!-- タブのコンテンツ -->
+        <v-tabs-items v-model="tab">
+          <v-tab-item>
+            <v-container style="text-align: center;">
+              <v-row align="center" justify="center" class="w-100">
+					<v-btn text @click="loadData('2025-07-19')">7/19</v-btn>
+					<v-btn text @click="loadData('2025-07-20')">7/20</v-btn>
+					<v-btn text @click="loadData('2025-07-21')">7/21</v-btn>
+				</v-row>
+          <v-alert v-if="loading" type="info" outlined>読み込み中...</v-alert>
+          <v-alert v-else-if="artists.length === 0" type="warning" outlined>データが見つかりません</v-alert>
+
+          <v-row v-else>
+            <v-col v-for="artist in artists" :key="artist.ID" cols="12" md="6">
+              <v-card height="562px">
+                <v-img :src="artist.Url" height="350px"></v-img>
+                <v-
+										e class="justify-center">{{ artist.ArtistName }}</v->
+                <v-card-subtitle>{{ artist.ArtistDrtail }}</v-card-subtitle>
+              </v-card>
+            </v-col>
+          </v-row>
+            </v-container>
+          </v-tab-item>
+           
+          <v-tab-item>
+            <v-container style="text-align: center;">
+						
+						 <h1>チケット詳細</h1>
+							<v-row align="center" justify="center" class="w-100" style="height: 300px;">
+								
+	<table>
+		<thead>
+    　<tr>
+      <th></th>
+      <th>アリーナ席</th>
+      <th>スタンド席</th>
+			<th>親子席</th>
+    　</tr>
+		</thead>
+   <tbody>
+          <tr v-for="row in ticketTable">
+            <td>{{ row.category }}</td>
+            <td v-for="seat in row.seats">
+              {{ seat.price }}円<br>
+              <v-btn small @click="openModal(seat.type, row.category, seat.price)"　style="background-color: mediumturquoise; color: white;">申し込み</v-btn>
+            </td>
+          </tr>
+        </tbody>
+								
+</table>
+
+								<v-dialog v-model="showModal" max-width="80%">
+        <v-card height="200vh">
+					<v-row class="mb-3 mt-3"
+                     align="center"
+                     justify="center">
+          <v-card-title class="headline">{{ modalTitle }}</v-card-title><br>
+						</v-row>
+					<v-card-text>
+						<v-row>
+                <v-col cols="6">
+                  <v-text-field  
+                  v-model:value="Name"                         
+                  label="名前"
+                  placeholder="名前を入力…"
+                  outlined
+                 ></v-text-field>
+                </v-col>
+						
+                
+                <v-col cols="6">
+                 <v-text-field
+                  v-model:value="PhoneNumber"                         
+                  label="電話番号"
+                  placeholder="電話番号(ハイフンなし)を入力…"
+                  outlined
+                  @input="formatPhoneNumber"
+  　　　　　　　　:rules="[phoneNumberRules]"
+                ></v-text-field>
+              </v-col>
+             
+          
+					
+						<v-col cols="6">
+                  <v-text-field
+                  v-model:value="MailAddress" 
+                  label="メールアドレス"
+                  placeholder="メールアドレスを入力…"
+                   outlined
+                 ></v-text-field>
+                </v-col>
+                
+                <v-col cols="6">
+                  <v-select
+									attach
+                  v-model:value="Number_of_Tickets" 
+                  :items="ticketOptions"
+                  label="チケット枚数"
+                  outlined
+                 ></v-select>
+                </v-col>
+         
+						<v-col cols="6">
+                  <v-select
+									attach
+                  v-model="Days" 
+                  :items="DaysOptions"
+                  label="日付"
+                  outlined
+                 ></v-select>
+                </v-col>
+								
+                <v-col cols="6">
+                  <v-select
+									attach
+                  v-model="SeatType" 
+                  :items="seatOptions"
+                  label="席の種類"
+                  outlined
+                 ></v-select>
+                </v-col>
+              <v-row>
+					</v-card-text>
+						<v-card-subtitle class="headline"　style="text-align: center;">確認画面</v-card-subtitle>
+							<br>
+					<v-card-text>	
+							<v-row >
+								
+                <v-col cols="6" class="text-right">名前：</v-col>
+                <v-col cols="6" class="text-left">{{ Name }}</v-col>
+                <v-col cols="6" class="text-right">電話番号：</v-col>
+                <v-col cols="6" class="text-left">{{ PhoneNumber }}</v-col>
+                <v-col cols="6" class="text-right">メールアドレス：</v-col>
+                <v-col cols="6" class="text-left">{{ MailAddress }}</v-col>
+                <v-col cols="6" class="text-right">チケット枚数：</v-col>
+                <v-col cols="6" class="text-left">{{ Number_of_Tickets }}</v-col>
+								<v-col cols="6" class="text-right">日付：</v-col>
+                <v-col cols="6" class="text-left">{{ Days }}</v-col>
+                <v-col cols="6" class="text-right">席の種類：</v-col>
+                <v-col cols="6" class="text-left">{{ SeatType }}</v-col>
+              </v-row>
+					</v-card-text>	
+							
+							
+          <v-card-text>
+            <v-row class="mb-3 mt-3"
+                     align="center"
+                     justify="center">
+                
+                <v-btn @click="addData"
+                       class="reserve-button"
+                       style="background-color:rgb(0, 139, 139);
+                              color:white;
+                              border: none;"
+                       >
+                       決定</v-btn>
+              </v-row>
+					<v-row class="mb-3 mt-3"
+                     align="center"
+                     justify="center">
+            <v-btn color="black" text @click="showModal = false">閉じる</v-btn>
+						</v-row>
+         </v-card-text>
+					
+        </v-card>
+      </v-dialog>          
+			</v-container>
+				
+			<v-container style="text-align: center;">			
+				
+	<h1><先行特典></h1><br>
+	<h2>先行チケットの購入で自動エントリー！抽選で当たる！！</h2>
+		<br>
+		<br>
+</v-row>
+							
+            </v-container>
+          </v-tab-item>
+
+          <v-tab-item>
+            <v-container style="text-align: center;">
+              <h1>My Page</h1><br>
+               
+　　　　　　　<h3 class="check-title">☑　予約状況の確認はこちらから</h3><br>
+                
+             <v-row justify="center">
+                <v-col cols="8">
+                  <v-text-field
+                    v-model="PhoneNumber"
+                    placeholder="予約時の電話番号(ハイフンなし)を入力…"
+                    label="電話番号"
+                    outlined
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+  
+  <!-- データ取得ボタン -->
+  <v-btn @click="readData"
+         class="check-button"
+         style="background-color:rgb(0, 139, 139);
+                color:white;
+                border: none;"
+         >確認</v-btn><br><br>
+   
+ 
+<!-- データ表示部分 -->
+<div v-if="dataList.length > 0" style="text-align: center;">
+  <div v-for="item in dataList" :key="item.Id" 
+       style="display: inline-block; text-align: left; margin-bottom: 20px;">
+    <div style="display: flex; justify-content: space-between; 
+                min-width: 300px; margin-bottom: 5px;">
+      <strong style="min-width: 200px;　text-align: right;">名前:</strong>
+      <span style="min-width: 200px;　margin-left: 10px;　text-align: left;">   {{ item.Name }}</span>
+    </div>
+    <div style="display: flex; justify-content: space-between;
+                min-width: 300px; margin-bottom: 5px;">
+      <strong style="min-width: 200px; text-align: right;">電話番号:</strong>
+      <span style="min-width: 200px;　text-align: left;">{{ item.PhoneNumber }}</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; 
+                min-width: 300px; margin-bottom: 5px;">
+      <strong style="min-width: 200px; text-align: right;">メールアドレス:</strong>
+      <span style="min-width: 200px;　text-align: left;">{{ item.MailAddress }}</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; 
+                min-width: 300px; margin-bottom: 5px;">
+      <strong style="min-width: 200px; text-align: right;">チケット枚数:</strong>
+      <span style="min-width: 200px;　text-align: left;">{{ item.Number_of_Tickets }}</span>
+    </div>
+		<div style="display: flex; justify-content: space-between; 
+                min-width: 300px; margin-bottom: 5px;">
+      <strong style="min-width: 200px; text-align: right;">日付:</strong>
+      <span style="min-width: 200px;　text-align: left;">{{ item.Days.substring(0, 10) }}</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; 
+                min-width: 300px; margin-bottom: 5px;">
+      <strong style="min-width: 200px; text-align: right;">席の種類:</strong>
+      <span style="min-width: 200px;　text-align: left;">{{ item.SeatType }}</span>
+    </div>
+    <hr>
+  </div>
+</div>
+       
+  <div v-else>
+    <p>予約されていません。</p><br>
+  </div>
+
+     <h3　class="cancel-title">☒　チケットのキャンセルはこちらから</h3><br><br>
+         
+             
+
+  <!-- データ削除ボタン -->
+  <v-btn @click="deleteData"
+         class="cancel-button"
+         style="background-color:rgb(240, 128, 128);
+                color:white;
+                border: none;
+                padding:6px 12px; 
+                font-size: 13.5px;"
+         >キャンセル</v-btn>
+		<br><br>
+            </v-container>
+          </v-tab-item>
+				
+				　<v-tab-item>
+					<v-container style="text-align: center;">
+						<h1>POP UP</h1><br>
+						<h2>追加５大フェス決定！！</h2><br>
+               <template>
+  <v-carousel
+    cycle
+    height="400"
+    hide-delimiter-background
+    show-arrows-on-hover
+  >
+    <v-carousel-item
+      v-for="(slide, i) in slides"
+      :key="i"
+    >
+      <v-sheet
+        :color="colors[i]"
+        height="100%"
+      >
+				
+        <v-row
+          class="fill-height"
+          align="center"
+          justify="center"
+        >
+					<v-col cols="12">
+           <div class="text-h2">
+						 No.{{ i + 1 }} {{ slide }} 
+           </div>
+					</v-col>	
+					<v-col cols="12">
+           <div class="text-h3">
+            {{ detail[i] }}
+           </div>
+					</v-col>
+					<v-col cols="12">
+  <div style="width: 100%; text-align: center; padding: 8px; background-color: rgba(128, 128, 128, 0.2);">{{ adddata[i] }}</div>
+</v-col>
+        </v-row>
+				      </v-sheet>
+    </v-carousel-item>
+  </v-carousel>
+</template>
+					</v-container>
+				</v-tab-item>
+				
+        </v-tabs-items>
+      </v-container>
+    </v-app>
+  </div>
+ 
+
+
+</body>
+</html>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>

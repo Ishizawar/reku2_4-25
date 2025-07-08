@@ -1,0 +1,198 @@
+/* 背景画像の設定 */
+#app {
+  background-image: url('https://i.gyazo.com/e54bc7e4f807cb7fdaa470613adbf307.jpg');
+  
+  background-size: cover; /* 画像を画面全体に拡大して表示 */
+  background-position: center; /* 画像の中央を表示 */
+  background-repeat: no-repeat; /* 画像が繰り返されないようにする */
+  background-attachment: fixed; /* スクロールしても背景が固定される */
+}
+
+
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+}
+.v-application {
+  background-co.container {
+  background-color: hsla(150, 100%, 88%, 0.4) 
+}
+
+
+h1{
+  color:rgb(80, 110, 100);
+}
+
+p {
+  font-family:'Playfair Display';
+  color:rgb(80, 110, 100);
+}
+
+/* MY PAGE　タブ */
+.check-title{
+  color:	rgb(0, 139, 139);
+}
+.cancel-title {
+  color: rgb(240, 128, 128);
+}lor: #f9f9f9;
+}
+
+/* チケット購入タブ */
+
+
+table {
+ border-collapse: collapse;
+ border: 2px solid black;
+ width: 80%;
+}
+
+table th{
+ border: 1px dashed gray;
+ padding: 5px 20px 5px 20px;
+}
+table td {
+ border: 1px dashed gray;
+ padding: 5px 20px 5px 20px;
+}
+
+
+.modal-wrapper {
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 10px 10px;
+  text-align: center;
+}
+
+.modal-button {
+    color:　white;
+    background-color: skyblue;
+    font-weight: bold;
+    text-align: center;
+    cursor :pointer;
+    transition: all 0.3s;
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 1px;
+    padding: 12px 2px;
+    max-width:200px;
+    text-decoration: none;
+	  border: none
+}
+
+.modal-button:active {
+  /*ボタンを押したとき*/
+  transform: translateY(2px);/*下に動く*/
+
+}
+
+
+
+/*ラベルホバー時*/
+.modal-button:hover {
+  color: #FFFFFF;
+  background-color: #4f96f6;
+  transition: .6s;
+}
+
+.modal-wrapper:not(:target) {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s, visibility .3s;
+}
+
+.modal-wrapper:target {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .4s, visibility .4s;
+}
+
+.modal-wrapper::after {
+  display: inline-block;
+  height: 100%;
+  margin-left: -.05em;
+  vertical-align: middle;
+  content: ""
+}
+
+.modal-wrapper .modal-window {
+  box-sizing: border-box;
+  display: inline-block;
+  z-index: 20;
+  position: relative;
+  width: 70%;
+  max-width: 600px;
+  padding: 10px 30px 25px;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0 0 30px rgba(0, 0, 0, .6);
+  vertical-align: middle
+}
+
+.modal-wrapper .modal-window .modal-content {
+  max-height: 80vh;
+  overflow-y: auto;
+  text-align: left
+}
+
+.modal_title {
+  font-size: 1.5em;
+	position: relative;
+	overflow: hidden;
+  padding: 0;
+}
+
+.modal_title::before,
+.modal_title::after{
+	content: "";
+	position: absolute;
+	bottom: 0;
+}
+
+/* h2 プライマリカラー*/
+.modal_title:before{
+	border-bottom: 4px solid #6bb6ff;
+	width: 100%;
+}
+/* h2 セカンダリカラー*/
+.modal_title:after{
+	border-bottom: 4px solid #c8e4ff;
+	width: 100%;
+}
+
+.modal-content p {
+  margin: 10px 0 0 0;
+}
+
+.modal-overlay {
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, .8)
+}
+
+.modal-wrapper .modal-close {
+  z-index: 20;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 35px;
+  color: #95979c !important;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 35px;
+  text-align: center;
+  text-decoration: none;
+  text-indent: 0
+}
+
+.modal-wrapper .modal-close:hover {
+  color: #2b2e38 !important
+}
